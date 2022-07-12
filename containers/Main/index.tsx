@@ -1,5 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+
+// gsap
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 
 //components
 import Page from './_fragments/Page';
@@ -9,6 +13,9 @@ import ThirdStep from './_fragments/ThirdStep';
 import Alam from './_fragments/Alam';
 
 const MainContainer = () => {
+  const ref = useRef(null);
+  const [tween, setTween] = useState<null | gsap.core.Tween>(null);
+
   const onClickFirstStep = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {
@@ -51,6 +58,34 @@ const MainContainer = () => {
     });
   }, []);
 
+  useEffect(() => {
+    if (tween) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+    let scrollTween = gsap.to(ref.current, {
+      ease: 'none',
+      backgroundColor: '#DAF7A6',
+      scrollTrigger: {
+        trigger: ref.current,
+        pin: true,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+        refreshPriority: 1,
+        start: 'top 0%',
+        end: '+=300%',
+        markers: false,
+        toggleActions: 'play reset play reset',
+        onUpdate: (self) => {
+          let p = (self.progress * 100).toFixed(1);
+          console.log(p);
+          // setProgress(p);
+        },
+      },
+    });
+
+    setTween(scrollTween);
+  }, []);
+
   return (
     <Container>
       <Page
@@ -63,11 +98,13 @@ const MainContainer = () => {
         </Wrap>
       </Page>
 
-      <Page id="section2" background="/images/Main/MainTop.png">
-        <Wrap>
-          <SecondStep />
-        </Wrap>
-      </Page>
+      <div ref={ref}>
+        <Page id="section2" background="/images/Main/MainTop.png">
+          <Wrap>
+            <SecondStep />
+          </Wrap>
+        </Page>
+      </div>
       <Page id="section3" background="">
         <Wrap>
           <ThirdStep />
