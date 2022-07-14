@@ -60,8 +60,6 @@ const MainContainer = () => {
     setTween(scrollTween);
   }, []);
 
-  console.log(progress)
-
   return (
     <Container>
       <Page
@@ -77,7 +75,7 @@ const MainContainer = () => {
       <div ref={ref}>
         <Page id="section2" background="/images/Main/MainTop.png">
           <Wrap>
-            <SecondStep />
+            <SecondStep progress={progress} />
           </Wrap>
         </Page>
       </div>

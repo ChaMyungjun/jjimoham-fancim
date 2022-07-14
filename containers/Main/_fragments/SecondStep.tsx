@@ -7,65 +7,41 @@ import { Title } from 'components/Typography';
 //styles
 import { Bounce, FadeIn, FadeOut, sizeUp } from 'styles/animation';
 
-const SecondStep = () => {
+interface Props {
+  progress: string;
+}
+
+const SecondStep = ({ progress }: Props) => {
   const [isClick, setIsClick] = useState(false);
-  const [randomCount, setRandomCount] = useState(0);
 
-  const getRandomIntInclusive = () => {
-    const min = 0;
-    const max = 15;
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  };
-
-  const handleClickImage = () => {
-    setRandomCount(getRandomIntInclusive());
-  };
+  // randomize create
+  // const getRandomIntInclusive = () => {
+  //   const min = 0;
+  //   const max = 15;
+  //   return Math.floor(Math.random() * (max - min + 1)) + min;
+  // };
 
   const HOVER_BACKGROUND_IMG = [
     '/images/Main/mainHoverBackground.png',
     '/images/Main/mainHoverBackground2.png',
     '/images/Main/mainHoverBackground3.png',
     '/images/Main/mainHoverBackground4.png',
-    '/images/Main/mainHoverBackground.png',
-    '/images/Main/mainHoverBackground2.png',
-    '/images/Main/mainHoverBackground3.png',
-    '/images/Main/mainHoverBackground4.png',
-    '/images/Main/mainHoverBackground.png',
-    '/images/Main/mainHoverBackground2.png',
-    '/images/Main/mainHoverBackground3.png',
-    '/images/Main/mainHoverBackground4.png',
-    '/images/Main/mainHoverBackground.png',
-    '/images/Main/mainHoverBackground2.png',
-    '/images/Main/mainHoverBackground3.png',
-    '/images/Main/mainHoverBackground4.png',
   ] as const;
+
+  console.log(parseFloat(progress) / 25)
 
   return (
     <>
       <SecondTitle isClick={isClick} onClick={() => setIsClick(true)}>
         JJIMO HAM
       </SecondTitle>
-
-      {isClick && (
-        <ImageContainer
-          style={{
-            backgroundImage: `url(${HOVER_BACKGROUND_IMG[randomCount]})`,
-          }}
-        >
-          <Wrap>
-            <Title
-              onClick={() => window.open('https://www.twitch.tv/midong1030')}
-            >
-              Monster JJIMO
-            </Title>
-            <CircleImage
-              source="/og/OG.png"
-              style={{ transform: 'rotate(-20deg)', marginLeft: '20px' }}
-              onClick={handleClickImage}
-            />
-          </Wrap>
-        </ImageContainer>
-      )}
+      <ImageContainer
+        style={{
+          backgroundImage: `url(${
+            HOVER_BACKGROUND_IMG[Math.floor(parseFloat(progress) / 25)]
+          })`,
+        }}
+      />
     </>
   );
 };
