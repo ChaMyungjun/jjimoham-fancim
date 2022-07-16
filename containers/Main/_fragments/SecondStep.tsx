@@ -28,7 +28,8 @@ const SecondStep = ({ progress }: Props) => {
     '/images/Main/mainHoverBackground4.png',
   ] as const;
 
-  console.log(parseFloat(progress) / 25)
+  const indexNumber = Math.floor(parseFloat(progress) / 25);
+  console.log(indexNumber);
 
   return (
     <>
@@ -38,7 +39,7 @@ const SecondStep = ({ progress }: Props) => {
       <ImageContainer
         style={{
           backgroundImage: `url(${
-            HOVER_BACKGROUND_IMG[Math.floor(parseFloat(progress) / 25)]
+            HOVER_BACKGROUND_IMG[indexNumber === 4 ? 3 : indexNumber]
           })`,
         }}
       />
