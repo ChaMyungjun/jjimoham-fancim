@@ -53,27 +53,6 @@ interface SecondTitleStyleProps {
   isClick: boolean;
 }
 
-interface CircleImagStyleProps {
-  source: string;
-  top?: string;
-  left?: string;
-  right?: string;
-  bottom?: string;
-}
-
-const Wrap = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  h1 {
-    font-size: 80px;
-    white-space: pre;
-  }
-`;
-
 const SecondTitle = styled(Title)<SecondTitleStyleProps>`
   transform: translate(-1%, 40%);
   cursor: pointer;
@@ -107,23 +86,4 @@ const ImageContainer = styled.div`
   animation: ${FadeIn} 580ms linear 0s forwards;
   animation: ${sizeUp} 480ms linear 0s forwards;
   cursor: default;
-`;
-
-const CircleImage = styled.div<CircleImagStyleProps>`
-  width: 100px;
-  height: 100px;
-
-  background-image: url(${(props) => props.source});
-  background-position: center center;
-  background-size: cover;
-
-  border-radius: 50%;
-
-  transition: transform 200ms linear;
-
-  cursor: pointer;
-
-  :hover {
-    transform: scale(1.1) !important;
-  }
 `;
