@@ -42,8 +42,8 @@ const Page = ({ id, background, children, onClick }: Props) => {
     handleScroll();
     document.addEventListener('scroll', handleScroll);
 
-    // Clean up scroll listener on unmount
     return () => document.removeEventListener('scroll', handleScroll);
+    // Clean up scroll listener on unmount
   });
 
   return (

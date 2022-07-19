@@ -1,5 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+
+// gsap
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 
 //components
 import Page from './_fragments/Page';
@@ -9,6 +13,10 @@ import ThirdStep from './_fragments/ThirdStep';
 import Alam from './_fragments/Alam';
 
 const MainContainer = () => {
+  const ref = useRef(null);
+  const [progress, setProgress] = useState('');
+  const [tween, setTween] = useState<null | gsap.core.Tween>(null);
+
   const onClickFirstStep = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {
@@ -26,29 +34,30 @@ const MainContainer = () => {
   };
 
   useEffect(() => {
-    document.addEventListener('scroll', () => {
-      // 스크롤 현재 값 확인
-      console.log('current', document.documentElement.scrollTop);
+    if (tween) return;
 
-      // 브라우저에서 실제로 사용할 수 있는 전체 높이
-      console.log('inner height', window.innerHeight);
-
-      // TODO: 스크롤 위치 확인 후 해당 section으로 넘겨줌
-
-      // const currnetPosY = document.documentElement.scrollTop;
-      // const innerHeight = window.innerHeight;
-
-      // if (currnetPosY <= innerHeight) {
-
-      // } else if (currnetPosY <= innerHeight && currnetPosY <= innerHeight * 2) {
-      //   window.location.href = '#section2';
-      // } else if (
-      //   currnetPosY <= innerHeight * 2 &&
-      //   currnetPosY <= innerHeight * 3
-      // ) {
-      //   window.location.href = '#section3';
-      // }
+    gsap.registerPlugin(ScrollTrigger);
+    let scrollTween = gsap.to(ref.current, {
+      ease: 'none',
+      backgroundColor: '#DAF7A6',
+      scrollTrigger: {
+        trigger: ref.current,
+        pin: true,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+        refreshPriority: 1,
+        start: 'top 0%',
+        end: '+=300%',
+        markers: false,
+        toggleActions: 'play reset play reset',
+        onUpdate: (self) => {
+          let p = (self.progress * 100).toFixed(1);
+          setProgress(p);
+        },
+      },
     });
+
+    setTween(scrollTween);
   }, []);
 
   return (
@@ -63,11 +72,13 @@ const MainContainer = () => {
         </Wrap>
       </Page>
 
-      <Page id="section2" background="/images/Main/MainTop.png">
-        <Wrap>
-          <SecondStep />
-        </Wrap>
-      </Page>
+      <div ref={ref}>
+        <Page id="section2" background="/images/Main/MainTop.png">
+          <Wrap>
+            <SecondStep progress={progress} />
+          </Wrap>
+        </Page>
+      </div>
       <Page id="section3" background="">
         <Wrap>
           <ThirdStep />

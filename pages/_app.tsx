@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ThemeProvider } from 'styled-components';
+import axios from 'axios';
 
 // api
 import { postToken } from 'api/POST';
@@ -14,7 +15,6 @@ import { FadeInCompo } from 'components/Fade/FadeIn';
 import { theme } from 'Layout/theme';
 import GlobalStyle from '../styles/globals.css';
 import { CookieSetServiceWorkerToken } from 'utils/Storage';
-import axios from 'axios';
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   const [loading, setLoading] = useState(true);
@@ -43,7 +43,9 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
                 applicationServerKey: process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY,
               };
 
-              await navigator.serviceWorker.ready;
+              // await navigator.serviceWorker.ready;
+
+              console.log('test');
 
               return registration.pushManager?.subscribe(subscribeOptions);
             })
