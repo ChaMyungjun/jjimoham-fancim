@@ -16,7 +16,7 @@ import { theme } from 'Layout/theme';
 import GlobalStyle from '../styles/globals.css';
 import { CookieSetServiceWorkerToken } from 'utils/Storage';
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   const [loading, setLoading] = useState(true);
 
   const queryClient = new QueryClient();
